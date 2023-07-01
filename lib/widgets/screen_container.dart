@@ -24,6 +24,8 @@ class ScreenContainer extends StatelessWidget {
         ),
         color: Colors.white,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: children,
         )
       )

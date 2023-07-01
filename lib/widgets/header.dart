@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class Header extends StatelessWidget {
   const Header({
     super.key,
-    required this.addTask
+    required this.clickAdd
   });
 
-  final Function() addTask;
+  final Function() clickAdd;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class Header extends StatelessWidget {
           ),
           iconSize: 48,
           tooltip: 'Adicionar tarefa',
-          onPressed: addTask,
+          onPressed: clickAdd,
         )
       ]
     );

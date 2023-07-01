@@ -1,55 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/widgets/form_task.dart';
-import 'package:todolist/widgets/header.dart';
-import 'package:todolist/widgets/screen_container.dart';
+import 'package:todolist/screens/tasks/list_task_screen.dart';
+import 'package:todolist/screens/tasks/record_task_screen.dart';
 
-
-main() => runApp(const MaterialApp(
-  home: App()
-));
-
+main() => runApp(const App());
 class AppState extends State<App> {
-  Map record = {
-    'title': '',
-    'description': '',
-    'checked': false,
-  };
+  String title = '';
+  String description = '';
+  bool checked = false;
 
-  Function(dynamic) setRecord(String key) {
+  Function(dynamic) setRecord(dynamic key) {
     return (value) {
+      debugPrint(value.toString());
       setState(() {
-        record[key] = value;
+        key = value;
       });
     };
   }
 
-  dynamic addTask(context) {
-    debugPrint(record['checked']);
-
-    return () {
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return FormTask(
-            changeTitle: setRecord('title'),
-            changeDescription: setRecord('description'),
-            valueCheck: record['checked'],
-            changeCheck: setRecord('checked'),
-          );
-        }
-      );
-    };
+  void save() {
+    debugPrint('save');
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return ScreenContainer(
-      children: [
-        Header(
-          addTask: addTask(context),
-        ),
-      ] 
+    return MaterialApp(
+      routes: {
+        '/': (listTaskContext) => const ListTaskScreen(), 
+        '/task': (recordTaskContext) => const RecordTaskScreen(), 
+      }
     );
   }
 }
