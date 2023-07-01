@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/widgets/form_task.dart';
 import 'package:todolist/widgets/header.dart';
 import 'package:todolist/widgets/screen_container.dart';
 
@@ -8,35 +9,32 @@ main() => runApp(const MaterialApp(
 ));
 
 class AppState extends State<App> {
-  bool isEnableDrag = true;
+  Map record = {
+    'title': '',
+    'description': '',
+    'checked': false,
+  };
+
+  Function(dynamic) setRecord(String key) {
+    return (value) {
+      setState(() {
+        record[key] = value;
+      });
+    };
+  }
 
   dynamic addTask(context) {
-    debugPrint('addTask');
+    debugPrint(record['checked']);
 
     return () {
       showModalBottomSheet(
         context: context,
         builder: (context) {
-          return const Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Título',
-                        )
-                      )
-                    )
-                  ],
-                )
-              ]
-            )
+          return FormTask(
+            changeTitle: setRecord('title'),
+            changeDescription: setRecord('description'),
+            valueCheck: record['checked'],
+            changeCheck: setRecord('checked'),
           );
         }
       );
