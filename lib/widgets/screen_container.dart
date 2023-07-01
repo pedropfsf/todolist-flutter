@@ -22,7 +22,7 @@ class ScreenContainer extends StatelessWidget {
           right: 24,
           bottom: 24,
         ),
-        color: Colors.white,
+        color: Colors.black,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -24,6 +24,7 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
       routes: {
         '/': (listTaskContext) => const ListTaskScreen(), 
         '/task': (recordTaskContext) => const RecordTaskScreen(), 

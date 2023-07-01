@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todolist/widgets/checkbox_label.dart';
 import 'package:todolist/widgets/elevated_button_custom.dart';
 import 'package:todolist/widgets/field.dart';
@@ -7,6 +8,7 @@ import 'package:todolist/widgets/text_button_custom.dart';
 import 'package:todolist/widgets/title_form.dart';
 
 class RecordTaskScreenState extends State<RecordTaskScreen> {
+  
   String title = '';
   String description = '';
   bool checked = false;
@@ -33,8 +35,20 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
     return () => Navigator.pop(context);
   }
 
-  void save() {
-    debugPrint('save');
+  Function() save(context) {
+    return () async {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString('save_task:title', title);
+        await prefs.setString('save_task:description', description);
+        await prefs.setBool('save_task:checked', checked);
+
+        goToBack(context);
+      } catch (error) {
+        debugPrint(error.toString());
+      }
+    };
   }
 
   @override
@@ -44,10 +58,9 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
         const TitleForm(title: 'Registro de tarefa'),
         const SizedBox(height: 24),
         Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Field(
                   label: 'Título', 
@@ -75,7 +88,7 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
                 const SizedBox(width: 24),
                 ElevatedButtonCustom(
                   label: 'Salvar', 
-                  onPressed: save
+                  onPressed: save(context)
                 )
               ]
             )
