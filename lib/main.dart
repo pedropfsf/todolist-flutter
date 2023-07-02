@@ -16,12 +16,20 @@ class AppState extends State<App> {
     });
   }
 
+  void toMark(int index, bool checked) {
+    final item = tasks.elementAt(index);
+
+    setState(() {
+      item['checked'] = checked;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
       routes: {
-        '/': (listTaskContext) => ListTaskScreen(tasks: tasks), 
+        '/': (listTaskContext) => ListTaskScreen(tasks: tasks, toMark: toMark), 
         '/task': (recordTaskContext) => RecordTaskScreen(tasks: tasks, changeTasks: changeTasks), 
       }
     );
