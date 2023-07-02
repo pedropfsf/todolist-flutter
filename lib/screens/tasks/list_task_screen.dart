@@ -31,9 +31,7 @@ class ListTaskScreen extends StatelessWidget {
         Header(
           clickAdd: clickAdd(context),
         ),
-        Container(
-          color: Colors.black26,
-          height: 200,
+        Expanded(
           child: ListView.builder(
             itemCount: tasks.length,
             itemBuilder: (context, index) {
