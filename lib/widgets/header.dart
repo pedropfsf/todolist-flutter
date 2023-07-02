@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/services/view.dart';
 
 class Header extends StatelessWidget {
   const Header({
     super.key,
-    required this.clickAdd
+    required this.clickAdd,
+    required this.onInputChanged
   });
 
   final Function() clickAdd;
+  final Function(String) onInputChanged;
 
   @override
   Widget build(BuildContext context) {
-    final statusBarHeight = getHeightStatusBar(context);
 
     return Padding(
-      padding: EdgeInsets.only(
-        top: statusBarHeight + 24,
+      padding: const EdgeInsets.only(
+        top: 24,
         left: 24,
         right: 24,
         bottom: 24,
       ),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Pesquisar tarefa',
               ),
+              onChanged: onInputChanged,
             )
           ),
           IconButton(

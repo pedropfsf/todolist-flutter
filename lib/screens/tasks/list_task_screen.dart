@@ -7,10 +7,14 @@ class ListTaskScreen extends StatelessWidget {
     super.key,
     required this.tasks,
     required this.toMark,
+    required this.searchValue,
+    required this.changeSearchValue,
   });
 
+  final String searchValue;
   final List<Map> tasks;
   final Function(int index, bool checked) toMark;
+  final Function(String value) changeSearchValue;
 
 
   Function() clickAdd(context) {
@@ -30,6 +34,7 @@ class ListTaskScreen extends StatelessWidget {
       children: [
         Header(
           clickAdd: clickAdd(context),
+          onInputChanged: changeSearchValue,
         ),
         Expanded(
           child: ListView.builder(

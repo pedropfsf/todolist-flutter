@@ -5,6 +5,22 @@ import 'package:todolist/screens/tasks/record_task_screen.dart';
 main() => runApp(const App());
 class AppState extends State<App> {
   List<Map> tasks = [];
+  List<Map> filteredTasks = [];
+  String searchValue = '';
+
+  void changeSearchValue(String value) {
+    List<Map> newFilteredTasks = [];
+
+    for(final task in tasks) {
+      if (task['title'].contains(value)) {
+          newFilteredTasks.add(task);
+      }
+    }
+
+    setState(() {
+      filteredTasks = newFilteredTasks;
+    });
+  }
 
   void changeTasks({String title = '', String description = '', bool checked = false}) {
     setState(() {
@@ -13,6 +29,8 @@ class AppState extends State<App> {
         'description': description,
         'checked': checked
       });
+
+      filteredTasks = tasks;
     });
   }
 
@@ -29,8 +47,16 @@ class AppState extends State<App> {
     return MaterialApp(
       theme: ThemeData.dark(),
       routes: {
-        '/': (listTaskContext) => ListTaskScreen(tasks: tasks, toMark: toMark), 
-        '/task': (recordTaskContext) => RecordTaskScreen(tasks: tasks, changeTasks: changeTasks), 
+        '/': (listTaskContext) => ListTaskScreen(
+          tasks: tasks, 
+          toMark: toMark, 
+          searchValue: searchValue,
+          changeSearchValue: changeSearchValue,
+        ), 
+        '/task': (recordTaskContext) => RecordTaskScreen(
+          tasks: filteredTasks, 
+          changeTasks: changeTasks
+        ), 
       }
     );
   }
