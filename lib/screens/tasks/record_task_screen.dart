@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todolist/widgets/checkbox_label.dart';
 import 'package:todolist/widgets/elevated_button_custom.dart';
 import 'package:todolist/widgets/field.dart';
 import 'package:todolist/widgets/screen_container.dart';
 import 'package:todolist/widgets/text_button_custom.dart';
 import 'package:todolist/widgets/title_form.dart';
-
 class RecordTaskScreenState extends State<RecordTaskScreen> {
-  
   String title = '';
   String description = '';
   bool checked = false;
@@ -25,12 +22,12 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
     });
   }
   
-  void changeCheck(bool? value) {
+  void changeChecked(bool? value) {
     setState(() {
       checked = value!;
     });
   }
-
+  
   Function() goToBack(context) {
     return () => Navigator.pop(context);
   }
@@ -38,11 +35,11 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
   Function() save(context) {
     return () async {
       try {
-        final prefs = await SharedPreferences.getInstance();
-
-        await prefs.setString('save_task:title', title);
-        await prefs.setString('save_task:description', description);
-        await prefs.setBool('save_task:checked', checked);
+        widget.changeTasks(
+          title: title,
+          description: description,
+          checked: checked,
+        );
 
         goToBack(context);
       } catch (error) {
@@ -74,7 +71,7 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
                 CheckboxLabel(
                   label: 'Marcado',
                   checked: checked, 
-                  change: changeCheck, 
+                  change: changeChecked, 
                 )
               ]
             ),
@@ -100,8 +97,15 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
 }
 
 class RecordTaskScreen extends StatefulWidget {
-  const RecordTaskScreen({super.key});
+  const RecordTaskScreen({
+    super.key,
+    required this.tasks,
+    required this.changeTasks,
+  });
 
-  @override 
+  final List<Map> tasks;
+  final Function({String title, String description, bool checked}) changeTasks;
+
+  @override
   State<RecordTaskScreen> createState() => RecordTaskScreenState();
 }

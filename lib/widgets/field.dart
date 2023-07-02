@@ -18,7 +18,7 @@ class Field extends StatelessWidget {
           border: const OutlineInputBorder(),
           labelText: label,
         ),
-        onSubmitted: change,
+        onChanged: change,
       )
     );
   }

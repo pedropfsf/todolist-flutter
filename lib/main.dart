@@ -4,21 +4,16 @@ import 'package:todolist/screens/tasks/record_task_screen.dart';
 
 main() => runApp(const App());
 class AppState extends State<App> {
-  String title = '';
-  String description = '';
-  bool checked = false;
+  List<Map> tasks = [];
 
-  Function(dynamic) setRecord(dynamic key) {
-    return (value) {
-      debugPrint(value.toString());
-      setState(() {
-        key = value;
+  void changeTasks({String title = '', String description = '', bool checked = false}) {
+    setState(() {
+      tasks.add({
+        'title': title,
+        'description': description,
+        'checked': checked
       });
-    };
-  }
-
-  void save() {
-    debugPrint('save');
+    });
   }
 
   @override
@@ -26,8 +21,8 @@ class AppState extends State<App> {
     return MaterialApp(
       theme: ThemeData.dark(),
       routes: {
-        '/': (listTaskContext) => const ListTaskScreen(), 
-        '/task': (recordTaskContext) => const RecordTaskScreen(), 
+        '/': (listTaskContext) => ListTaskScreen(tasks: tasks), 
+        '/task': (recordTaskContext) => RecordTaskScreen(tasks: tasks, changeTasks: changeTasks), 
       }
     );
   }
