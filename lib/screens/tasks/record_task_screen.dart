@@ -10,10 +10,10 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
   String title = '';
   String description = '';
   bool checked = false;
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   bool isValidForm() {
-    return formKey.currentState!.validate();
+    return _formKey.currentState!.validate();
   }
 
   void changeTitle(String value) {
@@ -38,24 +38,21 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
     Navigator.pop(context);
   }
 
-  Function() save(context) {
-    return () async {
-      try {
-        if (isValidForm()) {
-          setState(() {
-            widget.addTask({
-              'title': title,
-              'description': description,
-              'checked': checked
-            });
-          });
+  void save(context) {
+    try {
+      debugPrint('a');
+      if (isValidForm()) {
+        setState(() {
+          widget.addTask(
+            {'title': title, 'description': description, 'checked': checked},
+          );
+        });
 
-          goToBack(context);
-        }
-      } catch (error) {
-        debugPrint(error.toString());
+        goToBack(context);
       }
-    };
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   String? validateTitleField(value) {
@@ -75,7 +72,7 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
           const SizedBox(height: 24),
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Form(
-              key: formKey,
+              key: _formKey,
               child: Column(children: [
                 Field(
                   label: 'Título',

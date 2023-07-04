@@ -44,9 +44,9 @@ class AppState extends State<App> {
     });
   }
 
-  void deleteTask(index) {
-    // tasks = filteredTasks.skipWhile()
-  }
+  // void deleteTask(index) {
+  //   tasks = filteredTasks.skipWhile()
+  // }
 
   @override
   Widget build(BuildContext context) {
