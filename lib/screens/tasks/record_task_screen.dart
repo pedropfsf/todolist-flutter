@@ -42,21 +42,22 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
 
   void save(context) {
     try {
-      debugPrint('a');
-      if (isValidForm()) {
-        setState(() {
-          widget.addTask(
-            {
-              'id': uuid.v4().toString(),
-              'title': title,
-              'description': description,
-              'checked': checked,
-            },
-          );
-        });
-
-        goToBack(context);
+      if (!isValidForm()) {
+        return;
       }
+
+      setState(() {
+        widget.addTask(
+          {
+            'id': uuid.v4().toString(),
+            'title': title,
+            'description': description,
+            'checked': checked,
+          },
+        );
+      });
+
+      goToBack(context);
     } catch (error) {
       debugPrint(error.toString());
     }
@@ -68,6 +69,16 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
     }
 
     return null;
+  }
+
+  getChecked() {
+    final recordCheckValue = widget.record['checked'];
+
+    if (recordCheckValue == null) {
+      return checked;
+    }
+
+    return recordCheckValue == 'true';
   }
 
   @override
@@ -86,15 +97,17 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
                   label: 'Título',
                   change: changeTitle,
                   validator: validateTitleField,
+                  initialValue: widget.record['title'],
                 ),
                 const SizedBox(height: 16),
                 Field(
                   label: 'Descrição',
                   change: changeDescription,
+                  initialValue: widget.record['description'],
                 ),
                 CheckboxLabel(
                   label: 'Marcado',
-                  checked: checked,
+                  checked: getChecked(),
                   change: changeChecked,
                 )
               ]),
@@ -121,9 +134,11 @@ class RecordTaskScreen extends StatefulWidget {
   const RecordTaskScreen({
     super.key,
     required this.addTask,
+    required this.record,
   });
 
   final Function(Map) addTask;
+  final Map record;
 
   @override
   State<RecordTaskScreen> createState() => RecordTaskScreenState();

@@ -10,6 +10,7 @@ class ListTaskScreen extends StatelessWidget {
     required this.searchValue,
     required this.changeSearchValue,
     required this.deleteTask,
+    required this.goToEditTask,
   });
 
   final String searchValue;
@@ -17,6 +18,7 @@ class ListTaskScreen extends StatelessWidget {
   final Function(int index, bool checked) toMark;
   final Function(String value) changeSearchValue;
   final Function(String id) deleteTask;
+  final Function(dynamic index) goToEditTask;
 
   void clickAdd(context) {
     Navigator.pushNamed(context, '/task');
@@ -64,13 +66,31 @@ class ListTaskScreen extends StatelessWidget {
               ),
             ),
             dense: true,
-            trailing: IconButton(
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-                size: 32,
+            trailing: SizedBox(
+              width: 100,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                      color: Colors.orange,
+                      size: 32,
+                    ),
+                    onPressed: () {
+                      goToEditTask(index);
+                      Navigator.pushNamed(context, '/task');
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 32,
+                    ),
+                    onPressed: () => deleteTask(id),
+                  ),
+                ],
               ),
-              onPressed: () => deleteTask(id),
             ),
           );
         },

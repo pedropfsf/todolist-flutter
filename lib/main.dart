@@ -6,9 +6,10 @@ import 'package:todolist/screens/tasks/record_task_screen.dart';
 main() => runApp(const App());
 
 class AppState extends State<App> {
+  String searchValue = '';
   List<Map> tasks = [];
   List<Map> filteredTasks = [];
-  String searchValue = '';
+  Map currentEditingTask = {};
 
   void addTask(Map newTask) {
     setState(() {
@@ -48,6 +49,14 @@ class AppState extends State<App> {
     });
   }
 
+  void goToEditTask(context, index) {
+    final item = {...tasks.elementAt(index)};
+
+    setState(() {
+      currentEditingTask = item;
+    });
+  }
+
   void deleteTask(String id) {
     final newTasks = [
       ...tasks,
@@ -75,8 +84,10 @@ class AppState extends State<App> {
             searchValue: searchValue,
             changeSearchValue: changeSearchValue,
             deleteTask: deleteTask,
+            goToEditTask: (index) => goToEditTask(context, index),
           ),
-      '/task': (recordTaskContext) => RecordTaskScreen(addTask: addTask),
+      '/task': (recordTaskContext) =>
+          RecordTaskScreen(record: currentEditingTask, addTask: addTask),
     });
   }
 }

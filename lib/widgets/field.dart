@@ -6,9 +6,11 @@ class Field extends StatelessWidget {
     required this.label,
     required this.change,
     this.validator,
+    this.initialValue,
   });
 
   final String label;
+  final String? initialValue;
   final Function(String) change;
   final String? Function(String?)? validator;
 
@@ -22,6 +24,7 @@ class Field extends StatelessWidget {
         labelText: label,
       ),
       onChanged: change,
+      initialValue: initialValue,
     ));
   }
 }
