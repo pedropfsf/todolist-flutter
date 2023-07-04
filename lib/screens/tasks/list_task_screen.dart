@@ -9,12 +9,14 @@ class ListTaskScreen extends StatelessWidget {
     required this.toMark,
     required this.searchValue,
     required this.changeSearchValue,
+    required this.deleteTask,
   });
 
   final String searchValue;
   final List<Map> tasks;
   final Function(int index, bool checked) toMark;
   final Function(String value) changeSearchValue;
+  final Function(String id) deleteTask;
 
   void clickAdd(context) {
     Navigator.pushNamed(context, '/task');
@@ -35,34 +37,41 @@ class ListTaskScreen extends StatelessWidget {
           child: ListView.builder(
         itemCount: tasks.length,
         itemBuilder: (context, index) {
+          final id = getKeyByTasks(index, 'id');
           final title = getKeyByTasks(index, 'title');
+          final description = getKeyByTasks(index, 'description');
           final checked = getKeyByTasks(index, 'checked');
 
           return ListTile(
-            leading: Checkbox(
-              value: checked,
-              onChanged: (value) {
-                toMark(index, value!);
-              },
-            ),
+            leading: Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                  value: checked,
+                  onChanged: (value) {
+                    toMark(index, value!);
+                  },
+                )),
             title: Text(
               title,
               style: const TextStyle(
                 fontSize: 24,
               ),
             ),
+            subtitle: Text(
+              description,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
             dense: true,
-            // trailing: const Row(
-            //   children: [
-            //     IconButton(
-            //       icon: Icon(
-            //         Icons.delete,
-            //         color: Colors.red,
-            //       ),
-            //       onPressed:
-            //     )
-            //   ],
-            // )
+            trailing: IconButton(
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+                size: 32,
+              ),
+              onPressed: () => deleteTask(id),
+            ),
           );
         },
       ))

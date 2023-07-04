@@ -5,12 +5,14 @@ import 'package:todolist/widgets/field.dart';
 import 'package:todolist/widgets/screen_container.dart';
 import 'package:todolist/widgets/text_button_custom.dart';
 import 'package:todolist/widgets/title_form.dart';
+import 'package:uuid/uuid.dart';
 
 class RecordTaskScreenState extends State<RecordTaskScreen> {
   String title = '';
   String description = '';
   bool checked = false;
   final _formKey = GlobalKey<FormState>();
+  final uuid = const Uuid();
 
   bool isValidForm() {
     return _formKey.currentState!.validate();
@@ -44,7 +46,12 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
       if (isValidForm()) {
         setState(() {
           widget.addTask(
-            {'title': title, 'description': description, 'checked': checked},
+            {
+              'id': uuid.v4().toString(),
+              'title': title,
+              'description': description,
+              'checked': checked,
+            },
           );
         });
 
@@ -66,8 +73,9 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(24),
-        child: ScreenContainer(children: [
+      padding: const EdgeInsets.all(24),
+      child: ScreenContainer(
+        children: [
           const TitleForm(title: 'Registro de tarefa'),
           const SizedBox(height: 24),
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -93,13 +101,19 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               TextButtonCustom(
-                  label: 'Voltar', onPressed: () => goToBack(context)),
+                label: 'Voltar',
+                onPressed: () => goToBack(context),
+              ),
               const SizedBox(width: 24),
               ElevatedButtonCustom(
-                  label: 'Salvar', onPressed: () => save(context))
+                label: 'Salvar',
+                onPressed: () => save(context),
+              )
             ])
           ])
-        ]));
+        ],
+      ),
+    );
   }
 }
 

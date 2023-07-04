@@ -21,6 +21,10 @@ class AppState extends State<App> {
     return item['title'].toString();
   }
 
+  String getDescription(Map item) {
+    return item['description'].toString();
+  }
+
   void changeSearchValue(String value) {
     final newFilteredTasks = tasks.where((item) {
       if (value.isEmpty) {
@@ -28,7 +32,8 @@ class AppState extends State<App> {
       }
 
       final title = getTitle(item);
-      return title.contains(value);
+      final description = getDescription(item);
+      return title.contains(value) || description.contains(value);
     });
 
     setState(() {
@@ -38,15 +43,24 @@ class AppState extends State<App> {
 
   void toMark(int index, bool checked) {
     final item = tasks.elementAt(index);
-
     setState(() {
       item['checked'] = checked;
     });
   }
 
-  // void deleteTask(index) {
-  //   tasks = filteredTasks.skipWhile()
-  // }
+  void deleteTask(String id) {
+    final newTasks = [
+      ...tasks,
+    ];
+
+    tasks = newTasks.skipWhile((item) {
+      return item['id'] == id;
+    }).toList();
+
+    setState(() {
+      filteredTasks = tasks;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +74,7 @@ class AppState extends State<App> {
             toMark: toMark,
             searchValue: searchValue,
             changeSearchValue: changeSearchValue,
+            deleteTask: deleteTask,
           ),
       '/task': (recordTaskContext) => RecordTaskScreen(addTask: addTask),
     });
