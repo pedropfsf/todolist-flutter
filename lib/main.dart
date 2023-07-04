@@ -10,33 +10,29 @@ class AppState extends State<App> {
   List<Map> filteredTasks = [];
   String searchValue = '';
 
+  void addTask(Map newTask) {
+    setState(() {
+      tasks.add(newTask);
+      filteredTasks = tasks;
+    });
+  }
+
+  String getTitle(Map item) {
+    return item['title'].toString();
+  }
+
   void changeSearchValue(String value) {
     final newFilteredTasks = tasks.where((item) {
       if (value.isEmpty) {
         return true;
       }
 
-      final title = item['title'].toString();
-
+      final title = getTitle(item);
       return title.contains(value);
     });
 
     setState(() {
       filteredTasks = newFilteredTasks.toList();
-    });
-  }
-
-  void changeTasks({
-    String title = '',
-    String description = '',
-    bool checked = false,
-  }) {
-    setState(() {
-      tasks.add(
-        {'title': title, 'description': description, 'checked': checked},
-      );
-
-      filteredTasks = tasks;
     });
   }
 
@@ -46,6 +42,10 @@ class AppState extends State<App> {
     setState(() {
       item['checked'] = checked;
     });
+  }
+
+  void deleteTask(index) {
+    // tasks = filteredTasks.skipWhile()
   }
 
   @override
@@ -61,8 +61,7 @@ class AppState extends State<App> {
             searchValue: searchValue,
             changeSearchValue: changeSearchValue,
           ),
-      '/task': (recordTaskContext) =>
-          RecordTaskScreen(tasks: filteredTasks, changeTasks: changeTasks),
+      '/task': (recordTaskContext) => RecordTaskScreen(addTask: addTask),
     });
   }
 }

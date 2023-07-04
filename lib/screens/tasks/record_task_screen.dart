@@ -10,6 +10,11 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
   String title = '';
   String description = '';
   bool checked = false;
+  final formKey = GlobalKey<FormState>();
+
+  bool isValidForm() {
+    return formKey.currentState!.validate();
+  }
 
   void changeTitle(String value) {
     setState(() {
@@ -29,21 +34,23 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
     });
   }
 
-  Function() goToBack(context) {
-    return () => Navigator.pop(context);
+  void goToBack(context) {
+    Navigator.pop(context);
   }
 
   Function() save(context) {
     return () async {
       try {
-        if (_formKey.currentState!.validate()) {
-          widget.changeTasks(
-            title: title,
-            description: description,
-            checked: checked,
-          );
+        if (isValidForm()) {
+          setState(() {
+            widget.addTask({
+              'title': title,
+              'description': description,
+              'checked': checked
+            });
+          });
 
-          goToBack(context)();
+          goToBack(context);
         }
       } catch (error) {
         debugPrint(error.toString());
@@ -51,7 +58,13 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
     };
   }
 
-  final _formKey = GlobalKey<FormState>();
+  String? validateTitleField(value) {
+    if (value!.isEmpty) {
+      return 'Preencha o campo';
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,18 +75,12 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
           const SizedBox(height: 24),
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Form(
-              key: _formKey,
+              key: formKey,
               child: Column(children: [
                 Field(
                   label: 'Título',
                   change: changeTitle,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Preencha o campo';
-                    }
-
-                    return null;
-                  },
+                  validator: validateTitleField,
                 ),
                 const SizedBox(height: 16),
                 Field(
@@ -88,9 +95,11 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
               ]),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              TextButtonCustom(label: 'Voltar', onPressed: goToBack(context)),
+              TextButtonCustom(
+                  label: 'Voltar', onPressed: () => goToBack(context)),
               const SizedBox(width: 24),
-              ElevatedButtonCustom(label: 'Salvar', onPressed: save(context))
+              ElevatedButtonCustom(
+                  label: 'Salvar', onPressed: () => save(context))
             ])
           ])
         ]));
@@ -100,12 +109,10 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
 class RecordTaskScreen extends StatefulWidget {
   const RecordTaskScreen({
     super.key,
-    required this.tasks,
-    required this.changeTasks,
+    required this.addTask,
   });
 
-  final List<Map> tasks;
-  final Function({String title, String description, bool checked}) changeTasks;
+  final Function(Map) addTask;
 
   @override
   State<RecordTaskScreen> createState() => RecordTaskScreenState();
