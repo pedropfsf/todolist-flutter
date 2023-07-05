@@ -11,11 +11,37 @@ class AppState extends State<App> {
   List<Map> filteredTasks = [];
   Map currentEditingTask = {};
 
+  void clearCurrentEditingTask() {
+    setState(() {
+      currentEditingTask = {};
+    });
+  }
+
   void addTask(Map newTask) {
+    clearCurrentEditingTask();
+
     setState(() {
       tasks.add(newTask);
       filteredTasks = tasks;
     });
+  }
+
+  void editTask(Map newTask) {
+    final newTasks = tasks.map((task) {
+      if (task['id'] == newTask['id']) {
+        return newTask;
+      }
+
+      return task;
+    });
+
+    setState(() {
+      tasks = newTasks.toList();
+
+      filteredTasks = tasks;
+    });
+
+    currentEditingTask.clear();
   }
 
   String getTitle(Map item) {
@@ -86,8 +112,11 @@ class AppState extends State<App> {
             deleteTask: deleteTask,
             goToEditTask: (index) => goToEditTask(context, index),
           ),
-      '/task': (recordTaskContext) =>
-          RecordTaskScreen(record: currentEditingTask, addTask: addTask),
+      '/task': (recordTaskContext) => RecordTaskScreen(
+          record: currentEditingTask,
+          addTask: addTask,
+          editTask: editTask,
+          clearCurrentEditingTask: clearCurrentEditingTask),
     });
   }
 }

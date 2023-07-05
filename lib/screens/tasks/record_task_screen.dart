@@ -37,6 +37,7 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
   }
 
   void goToBack(context) {
+    widget.clearCurrentEditingTask();
     Navigator.pop(context);
   }
 
@@ -46,16 +47,27 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
         return;
       }
 
-      setState(() {
-        widget.addTask(
-          {
-            'id': uuid.v4().toString(),
-            'title': title,
-            'description': description,
-            'checked': checked,
-          },
-        );
-      });
+      final isToCreate = widget.record.isEmpty;
+
+      if (isToCreate) {
+        setState(() {
+          widget.addTask(
+            {
+              'id': uuid.v4().toString(),
+              'title': title,
+              'description': description,
+              'checked': checked,
+            },
+          );
+        });
+      } else {
+        widget.editTask({
+          'id': widget.record['id'],
+          'title': title,
+          'description': description,
+          'checked': checked,
+        });
+      }
 
       goToBack(context);
     } catch (error) {
@@ -82,6 +94,14 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    title = widget.record['title'] ?? '';
+    description = widget.record['description'] ?? '';
+    checked = getChecked() ?? false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -97,17 +117,17 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
                   label: 'Título',
                   change: changeTitle,
                   validator: validateTitleField,
-                  initialValue: widget.record['title'],
+                  initialValue: title,
                 ),
                 const SizedBox(height: 16),
                 Field(
                   label: 'Descrição',
                   change: changeDescription,
-                  initialValue: widget.record['description'],
+                  initialValue: description,
                 ),
                 CheckboxLabel(
                   label: 'Marcado',
-                  checked: getChecked(),
+                  checked: checked,
                   change: changeChecked,
                 )
               ]),
@@ -133,10 +153,14 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
 class RecordTaskScreen extends StatefulWidget {
   const RecordTaskScreen({
     super.key,
+    required this.clearCurrentEditingTask,
+    required this.editTask,
     required this.addTask,
     required this.record,
   });
 
+  final Function() clearCurrentEditingTask;
+  final Function(Map) editTask;
   final Function(Map) addTask;
   final Map record;
 
