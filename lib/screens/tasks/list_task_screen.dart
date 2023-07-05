@@ -30,6 +30,19 @@ class ListTaskScreen extends StatelessWidget {
     return tasks.elementAt(index)[key];
   }
 
+  Widget? getSubtitle(String description) {
+    if (description.isNotEmpty) {
+      return Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      );
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenContainer(children: [
@@ -61,12 +74,7 @@ class ListTaskScreen extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
-            subtitle: Text(
-              description,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            subtitle: getSubtitle(description),
             dense: true,
             trailing: SizedBox(
               width: 100,

@@ -124,6 +124,7 @@ class RecordTaskScreenState extends State<RecordTaskScreen> {
                   label: 'Descrição',
                   change: changeDescription,
                   initialValue: description,
+                  maxLines: 6,
                 ),
                 CheckboxLabel(
                   label: 'Marcado',
