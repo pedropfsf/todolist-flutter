@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/widgets/header.dart';
+import 'package:todolist/widgets/icons/icon_button_delete.dart';
+import 'package:todolist/widgets/icons/icon_button_edit.dart';
 import 'package:todolist/widgets/screen_container.dart';
 
 class ListTaskScreen extends StatelessWidget {
@@ -70,23 +72,13 @@ class ListTaskScreen extends StatelessWidget {
               width: 100,
               child: Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      color: Colors.orange,
-                      size: 32,
-                    ),
+                  IconButtonEdit(
                     onPressed: () {
                       goToEditTask(index);
                       Navigator.pushNamed(context, '/task');
                     },
                   ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                      size: 32,
-                    ),
+                  IconButtonDelete(
                     onPressed: () => deleteTask(id),
                   ),
                 ],

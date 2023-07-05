@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:todolist/screens/tasks/list_task_screen.dart';
 import 'package:todolist/screens/tasks/record_task_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 main() => runApp(const App());
 
@@ -24,6 +27,8 @@ class AppState extends State<App> {
       tasks.add(newTask);
       filteredTasks = tasks;
     });
+
+    saveTasksOnDevice();
   }
 
   void editTask(Map newTask) {
@@ -42,6 +47,7 @@ class AppState extends State<App> {
     });
 
     currentEditingTask.clear();
+    saveTasksOnDevice();
   }
 
   String getTitle(Map item) {
@@ -50,6 +56,22 @@ class AppState extends State<App> {
 
   String getDescription(Map item) {
     return item['description'].toString();
+  }
+
+  void getStorageTasks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final dynamic tasksStorage = json.decode(prefs.getString('tasks')!);
+
+    tasks = [...tasksStorage];
+
+    setState(() {
+      filteredTasks = tasks;
+    });
+  }
+
+  void saveTasksOnDevice() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('tasks', json.encode(tasks));
   }
 
   void changeSearchValue(String value) {
@@ -73,6 +95,7 @@ class AppState extends State<App> {
     setState(() {
       item['checked'] = checked;
     });
+    saveTasksOnDevice();
   }
 
   void goToEditTask(context, index) {
@@ -95,6 +118,14 @@ class AppState extends State<App> {
     setState(() {
       filteredTasks = tasks;
     });
+    saveTasksOnDevice();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getStorageTasks();
   }
 
   @override
