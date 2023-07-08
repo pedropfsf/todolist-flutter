@@ -18,12 +18,11 @@ class ScreenContainer extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.only(
           top: statusBarHeight + 24,
-          left: 24,
-          right: 24,
-          bottom: 24,
         ),
-        color: Colors.white,
+        color: Colors.black,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: children,
         )
       )
