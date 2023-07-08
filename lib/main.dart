@@ -80,9 +80,12 @@ class AppState extends State<App> {
         return true;
       }
 
-      final title = getTitle(item);
+      final formattedValue = value.toLowerCase();
+
+      final title = getTitle(item).toLowerCase();
       final description = getDescription(item);
-      return title.contains(value) || description.contains(value);
+      return title.contains(formattedValue) ||
+          description.contains(formattedValue);
     });
 
     setState(() {
