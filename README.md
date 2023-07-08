@@ -17,32 +17,32 @@
   <img
        src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot1.png"
        alt="Screenshot"
-       width="200px"
+       width="250px"
    />
    <img
        src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot2.png"
        alt="Screenshot"
-       width="200px"
+       width="250px"
    />
   <img
        src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot3.png"
        alt="Screenshot"
-       width="200px"
+       width="250px"
    />
   <img
        src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot4.png"
        alt="Screenshot"
-       width="200px"
+       width="250px"
    />
   <img
        src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot5.png"
        alt="Screenshot"
-       width="200px"
+       width="250px"
    />
   <img
        src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot6.png"
        alt="Screenshot"
-       width="200px"
+       width="250px"
    />
 </div>
 
