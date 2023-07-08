@@ -80,9 +80,12 @@ class AppState extends State<App> {
         return true;
       }
 
-      final title = getTitle(item);
+      final formattedValue = value.toLowerCase();
+
+      final title = getTitle(item).toLowerCase();
       final description = getDescription(item);
-      return title.contains(value) || description.contains(value);
+      return title.contains(formattedValue) ||
+          description.contains(formattedValue);
     });
 
     setState(() {
@@ -107,13 +110,11 @@ class AppState extends State<App> {
   }
 
   void deleteTask(String id) {
-    final newTasks = [
-      ...tasks,
-    ];
+    tasks.removeWhere((item) {
+      final itemId = item['id'].toString();
 
-    tasks = newTasks.skipWhile((item) {
-      return item['id'] == id;
-    }).toList();
+      return itemId == id;
+    });
 
     setState(() {
       filteredTasks = tasks;

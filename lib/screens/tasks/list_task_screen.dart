@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/services/text.dart';
 import 'package:todolist/widgets/header.dart';
 import 'package:todolist/widgets/icons/icon_button_delete.dart';
 import 'package:todolist/widgets/icons/icon_button_edit.dart';
@@ -26,6 +27,40 @@ class ListTaskScreen extends StatelessWidget {
     Navigator.pushNamed(context, '/task');
   }
 
+  void showDetails(context, title, description, checked) {
+    final affirmation = checked ? 'Sim' : 'Não';
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bottomSheetContext) {
+        return SizedBox(
+          height: 400,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  description,
+                ),
+                const SizedBox(height: 16),
+                Text('Marcado: $affirmation'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   getKeyByTasks(int index, String key) {
     return tasks.elementAt(index)[key];
   }
@@ -33,7 +68,7 @@ class ListTaskScreen extends StatelessWidget {
   Widget? getSubtitle(String description) {
     if (description.isNotEmpty) {
       return Text(
-        description,
+        limitCharacters(value: description),
         style: const TextStyle(
           fontSize: 16,
         ),
@@ -60,6 +95,8 @@ class ListTaskScreen extends StatelessWidget {
           final checked = getKeyByTasks(index, 'checked');
 
           return ListTile(
+            onLongPress: () =>
+                showDetails(context, title, description, checked),
             leading: Transform.scale(
                 scale: 1.2,
                 child: Checkbox(
