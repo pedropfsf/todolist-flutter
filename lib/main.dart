@@ -110,13 +110,11 @@ class AppState extends State<App> {
   }
 
   void deleteTask(String id) {
-    final newTasks = [
-      ...tasks,
-    ];
+    tasks.removeWhere((item) {
+      final itemId = item['id'].toString();
 
-    tasks = newTasks.skipWhile((item) {
-      return item['id'] == id;
-    }).toList();
+      return itemId == id;
+    });
 
     setState(() {
       filteredTasks = tasks;

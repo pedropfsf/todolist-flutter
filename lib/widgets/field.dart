@@ -24,6 +24,7 @@ class Field extends StatelessWidget {
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: label,
+        alignLabelWithHint: true,
       ),
       onChanged: change,
       initialValue: initialValue,
