@@ -5,7 +5,7 @@ class CheckboxLabel extends StatelessWidget {
     super.key,
     required this.checked,
     required this.change,
-    required this.label, 
+    required this.label,
   });
 
   final bool checked;
@@ -14,15 +14,15 @@ class CheckboxLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Checkbox(
+    return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Transform.scale(
+        scale: 1.2,
+        child: Checkbox(
           value: checked,
           onChanged: change,
         ),
-        Text(label)
-      ]
-    );
+      ),
+      Text(label)
+    ]);
   }
 }

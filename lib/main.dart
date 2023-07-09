@@ -135,21 +135,24 @@ class AppState extends State<App> {
       DeviceOrientation.portraitUp,
     ]);
 
-    return MaterialApp(theme: ThemeData.dark(), routes: {
-      '/': (listTaskContext) => ListTaskScreen(
-            tasks: filteredTasks,
-            toMark: toMark,
-            searchValue: searchValue,
-            changeSearchValue: changeSearchValue,
-            deleteTask: deleteTask,
-            goToEditTask: (index) => goToEditTask(context, index),
-          ),
-      '/task': (recordTaskContext) => RecordTaskScreen(
-          record: currentEditingTask,
-          addTask: addTask,
-          editTask: editTask,
-          clearCurrentEditingTask: clearCurrentEditingTask),
-    });
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      routes: {
+        '/': (listTaskContext) => ListTaskScreen(
+              tasks: filteredTasks,
+              toMark: toMark,
+              searchValue: searchValue,
+              changeSearchValue: changeSearchValue,
+              deleteTask: deleteTask,
+              goToEditTask: (index) => goToEditTask(context, index),
+            ),
+        '/task': (recordTaskContext) => RecordTaskScreen(
+            record: currentEditingTask,
+            addTask: addTask,
+            editTask: editTask,
+            clearCurrentEditingTask: clearCurrentEditingTask),
+      },
+    );
   }
 }
 

@@ -98,7 +98,7 @@ class ListTaskScreen extends StatelessWidget {
             onLongPress: () =>
                 showDetails(context, title, description, checked),
             leading: Transform.scale(
-                scale: 1.2,
+                scale: 1.4,
                 child: Checkbox(
                   value: checked,
                   onChanged: (value) {
@@ -108,7 +108,7 @@ class ListTaskScreen extends StatelessWidget {
             title: Text(
               title,
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 17,
               ),
             ),
             subtitle: getSubtitle(description),

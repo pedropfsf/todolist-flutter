@@ -11,10 +11,9 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(
-          top: 24,
-          left: 24,
-          right: 24,
-          bottom: 24,
+          top: 16,
+          left: 16,
+          right: 16,
         ),
         child: Row(children: [
           Expanded(
