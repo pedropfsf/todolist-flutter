@@ -13,19 +13,19 @@ class ScreenContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = getHeightStatusBar(context);
-    
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(
-          top: statusBarHeight + 24,
+          top: statusBarHeight + 16,
         ),
         color: Colors.black,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: children,
-        )
-      )
+        ),
+      ),
     );
   }
 }
