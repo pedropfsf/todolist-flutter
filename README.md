@@ -39,11 +39,6 @@
        alt="Screenshot"
        width="250px"
    />
-  <img
-       src="https://github.com/pedropfsf/todolist-flutter/blob/master/assets/screenshot6.png"
-       alt="Screenshot"
-       width="250px"
-   />
 </div>
 
 <br/>
