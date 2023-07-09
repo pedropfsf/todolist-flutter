@@ -15,15 +15,20 @@ class ScreenContainer extends StatelessWidget {
     final statusBarHeight = getHeightStatusBar(context);
 
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(
-          top: statusBarHeight + 16,
-        ),
-        color: Colors.black,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: children,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          padding: EdgeInsets.only(
+            top: statusBarHeight + 16,
+          ),
+          color: Colors.black,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: children,
+          ),
         ),
       ),
     );
